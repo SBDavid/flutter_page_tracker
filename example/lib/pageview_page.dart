@@ -31,8 +31,9 @@ class _MyHomePageState extends State<PageViewPage> {
         title: Text(widget.title),
       ),
       body: PageViewWrapper(
-        pageController: pageController,
+        changeDelegate: PageViewChangeDelegate(pageController),
         pageAmount: 3,
+        initialPage: pageController.initialPage,
         child: PageView(
           controller: pageController,
           children: <Widget>[
