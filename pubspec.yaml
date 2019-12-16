@@ -1,8 +1,8 @@
-name: xm_flutter_tracker
+name: flutter_page_tracker
 description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+version: 1.0.0
+author: DavidTang <billl89g@gmail.com>
+homepage: https://blog.csdn.net/billll
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
