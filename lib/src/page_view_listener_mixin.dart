@@ -46,6 +46,8 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
 
   @override
   void dispose() {
+    if (isPageView)
+      didPageExit();
     sb?.cancel();
     super.dispose();
   }

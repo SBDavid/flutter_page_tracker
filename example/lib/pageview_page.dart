@@ -11,7 +11,10 @@ class PageViewPage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<PageViewPage> {
+class _MyHomePageState extends State<PageViewPage> with AutomaticKeepAliveClientMixin<PageViewPage> {
+
+  @override
+  bool get wantKeepAlive => true;
 
   PageController pageController;
 

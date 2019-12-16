@@ -5,6 +5,7 @@ import 'package:xm_flutter_tracker/xm_flutter_tracker.dart';
 import 'home_page.dart';
 import 'detail_page.dart';
 import 'pageview_page.dart';
+import 'tabview_page.dart';
 
 void main() => runApp(TrackerRouteObserverProvider(child: MyApp(),));
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         "home": (_) => MyHomePage(title: 'Flutter代码埋点Demo'),
         "detail": (_) => DetailPage(title: 'Flutter代码埋点Demo'),
         "pageview": (_) => PageViewPage(title: 'Flutter代码埋点Demo'),
+        "tabview": (_) => TabViewPage(title: 'Flutter代码埋点Demo'),
       },
     );
   }

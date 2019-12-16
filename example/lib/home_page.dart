@@ -70,6 +70,14 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
                 'PageView页面，产生埋点事件',
               ),
             ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed("tabview");
+              },
+              child: Text(
+                'TapView页面，产生埋点事件',
+              ),
+            ),
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.

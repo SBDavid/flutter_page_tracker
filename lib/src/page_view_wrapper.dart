@@ -47,6 +47,14 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
   // 监听子页面控制器
   StreamSubscription<int> pageChangeSB;
 
+  void _createController(int index) {
+    controllers[index] = StreamController<PageTrackerEvent>(sync: true, onCancel: () {
+      _createController(index);
+    });
+    broadCaseStreams[index] = controllers[index].stream;
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -55,16 +63,17 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
 
     // 创建streams
     controllers = List(widget.pageAmount);
+    broadCaseStreams = List(widget.pageAmount);
     for(int i=0; i<controllers.length; i++) {
-      controllers[i] = StreamController<PageTrackerEvent>();
+      _createController(i);
     }
 
-    broadCaseStreams = controllers.map((controller) {
-      return controller.stream.asBroadcastStream();
-    }).toList();
+    /*broadCaseStreams = controllers.map((controller) {
+      return controller.stream;
+    }).toList();*/
 
     // 发送首次PageView事件
-    controllers[currPageIndex].sink.add(PageTrackerEvent.PageView);
+    controllers[currPageIndex].add(PageTrackerEvent.PageView);
 
     // 发送后续Page事件
     widget.changeDelegate.listen();
@@ -79,13 +88,15 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
 
     // 发送PageExit
     if (currPageIndex != null) {
-      controllers[currPageIndex].sink.add(PageTrackerEvent.PageExit);
+      controllers[currPageIndex].add(PageTrackerEvent.PageExit);
+      // Future.microtask(() {controllers[currPageIndex].add(PageTrackerEvent.PageExit);});
     }
 
     currPageIndex = index;
 
     // 发送PageView
-    controllers[currPageIndex].sink.add(PageTrackerEvent.PageView);
+    controllers[currPageIndex].add(PageTrackerEvent.PageView);
+    // Future.microtask(() {controllers[currPageIndex].add(PageTrackerEvent.PageView);});
   }
 
   @override
@@ -96,14 +107,14 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
   @override
   void didPageView() {
     super.didPageView();
-    controllers[currPageIndex].sink.add(PageTrackerEvent.PageView);
+    controllers[currPageIndex].add(PageTrackerEvent.PageView);
   }
 
   @override
   void didPageExit() {
     super.didPageExit();
     // 发送tab中的page离开
-    controllers[currPageIndex].sink.add(PageTrackerEvent.PageExit);
+    controllers[currPageIndex].add(PageTrackerEvent.PageExit);
   }
 
   @override
@@ -120,12 +131,12 @@ abstract class ChangeDelegate {
   Stream<int> stream;
 
   ChangeDelegate() {
-    streamController = StreamController<int>();
+    streamController = StreamController<int>(sync: true);
     stream = streamController.stream.asBroadcastStream();
   }
 
   void sendPageChange(int index) {
-    streamController.sink.add(index);
+    streamController.add(index);
   }
 
   @protected
@@ -163,6 +174,33 @@ class PageViewChangeDelegate extends ChangeDelegate {
   @override
   void dispose() {
     pageController.removeListener(onChange);
+    super.dispose();
+  }
+}
+
+class TabViewChangeDelegate extends ChangeDelegate {
+  TabController tabController;
+  int lastIndex;
+
+  TabViewChangeDelegate(this.tabController): super();
+
+  @override
+  void listen() {
+    tabController.addListener(onChange);
+  }
+
+  @override
+  void onChange() {
+    if (tabController.index == lastIndex) {
+      return;
+    } else {
+      lastIndex = tabController.index;
+      sendPageChange(tabController.index);
+    }
+  }
+
+  @override
+  void dispose() {
     super.dispose();
   }
 }
