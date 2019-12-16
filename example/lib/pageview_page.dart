@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xm_flutter_tracker/xm_flutter_tracker.dart';
+import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 
 class PageViewPage extends StatefulWidget {
   PageViewPage({Key key, this.title}) : super(key: key);

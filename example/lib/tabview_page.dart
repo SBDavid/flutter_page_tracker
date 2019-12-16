@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xm_flutter_tracker/xm_flutter_tracker.dart';
-import 'dart:async';
+import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 
 class TabViewPage extends StatefulWidget {
   TabViewPage({Key key, this.title}) : super(key: key);

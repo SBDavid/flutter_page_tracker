@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  xm_flutter_tracker:
+  flutter_page_tracker:
     path: ../
 
   # The following adds the Cupertino Icons font to your application.

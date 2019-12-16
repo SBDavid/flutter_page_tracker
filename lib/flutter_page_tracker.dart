@@ -1,4 +1,4 @@
-library xm_flutter_tracker;
+library flutter_page_tracker;
 
 export './src/page_tracker_aware.dart';
 export './src/tracker_route_observer.dart';

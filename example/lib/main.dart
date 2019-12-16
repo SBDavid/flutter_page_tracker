@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:xm_flutter_tracker/xm_flutter_tracker.dart';
+import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 
 // 页面
 import 'home_page.dart';
@@ -7,7 +7,11 @@ import 'detail_page.dart';
 import 'pageview_page.dart';
 import 'tabview_page.dart';
 
-void main() => runApp(TrackerRouteObserverProvider(child: MyApp(),));
+void main() => runApp(
+  TrackerRouteObserverProvider(
+    child: MyApp(),
+  )
+);
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
