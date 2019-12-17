@@ -3,7 +3,7 @@
 ### 1. 安装
 ```yaml
 dependencies:
-  xm_flutter_tracker: ^1.0.0
+  flutter_page_tracker: ^1.0.0
 ```
 
 ### 2. 引用
