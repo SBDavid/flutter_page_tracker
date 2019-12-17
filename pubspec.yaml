@@ -1,6 +1,6 @@
 name: flutter_page_tracker
-description: A new Flutter package project.
-version: 1.0.2
+description: 页面曝光、离开事件埋点框架，支持TabView PageView
+version: 1.0.3
 author: DavidTang <billl89g@gmail.com>
 homepage: https://blog.csdn.net/billll
 

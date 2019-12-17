@@ -164,7 +164,7 @@ class _State extends State<TabViewPage> with TickerProviderStateMixin {
 - 2. 当Tab发生切换时如何发送埋点事件？
 
 为了解决这两个问题，我们需要一个容器来管理tab页面的状态并且承载事件转发的任务。详见下图:
-![管理TabView中的事件](./tabview_event.jpg)。
+![管理TabView中的事件](https://raw.githubusercontent.com/SBDavid/flutter_page_tracker/master/tabview_event.jpg)。
 
 其中TabsWrapper会监听来自Flutter的路由事件，并转发给当前曝光的Tab，这就可以解决了问题一。
 
