@@ -1,3 +1,9 @@
+# flutter_page_tracker
+
+滑动页面吧埋点框架，支持TabView组件和PageView组件
+
+![demo](./demo.gif)
+
 ## 使用
 
 ### 1. 安装
