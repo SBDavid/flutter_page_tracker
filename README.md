@@ -2,7 +2,7 @@
 
 滑动页面吧埋点框架，支持TabView组件和PageView组件
 
-![demo](./demo.gif)
+![demo](https://raw.githubusercontent.com/SBDavid/flutter_page_tracker/master/demo.gif)
 
 ## 使用
 
