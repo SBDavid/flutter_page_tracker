@@ -6,6 +6,7 @@ import 'home_page.dart';
 import 'detail_page.dart';
 import 'pageview_page.dart';
 import 'tabview_page.dart';
+import 'pageview_in_tabview_page.dart';
 
 void main() => runApp(
   TrackerRouteObserverProvider(
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         "detail": (_) => DetailPage(title: 'Flutter代码埋点Demo'),
         "pageview": (_) => PageViewPage(title: 'Flutter代码埋点Demo'),
         "tabview": (_) => TabViewPage(title: 'Flutter代码埋点Demo'),
+        "pageviewInTabView": (_) => PageviewInTabviewPage(title: 'Flutter代码埋点Demo'),
       },
     );
   }

@@ -29,6 +29,7 @@ class PageViewWrapper extends StatefulWidget {
     return PageViewWrapperState();
   }
 
+  // 用于子页面事件监听
   static Stream<PageTrackerEvent> of(BuildContext context, int index) {
     assert(index >= 0);
     List<Stream<PageTrackerEvent>> broadCaseStreams = (context.ancestorStateOfType(TypeMatcher<PageViewWrapperState>()) as PageViewWrapperState).broadCaseStreams;
@@ -68,10 +69,6 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
       _createController(i);
     }
 
-    /*broadCaseStreams = controllers.map((controller) {
-      return controller.stream;
-    }).toList();*/
-
     // 发送首次PageView事件
     controllers[currPageIndex].add(PageTrackerEvent.PageView);
 
@@ -89,14 +86,12 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
     // 发送PageExit
     if (currPageIndex != null) {
       controllers[currPageIndex].add(PageTrackerEvent.PageExit);
-      // Future.microtask(() {controllers[currPageIndex].add(PageTrackerEvent.PageExit);});
     }
 
     currPageIndex = index;
 
     // 发送PageView
     controllers[currPageIndex].add(PageTrackerEvent.PageView);
-    // Future.microtask(() {controllers[currPageIndex].add(PageTrackerEvent.PageView);});
   }
 
   @override

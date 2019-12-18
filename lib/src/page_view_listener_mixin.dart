@@ -53,6 +53,8 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
   }
 }
 
+
+// 列表项中还可以再次嵌套列表，所以[PageViewListenerWrapper]需要把
 class PageViewListenerWrapper extends StatefulWidget {
 
   final int index;
@@ -68,17 +70,41 @@ class PageViewListenerWrapper extends StatefulWidget {
   }): super(key: key);
 
   @override
-  _State createState() {
-    return _State();
+  PageViewListenerWrapperState createState() {
+    return PageViewListenerWrapperState();
   }
 
+  static PageViewListenerWrapperState of(BuildContext context) {
+    return context.ancestorStateOfType(TypeMatcher<PageViewListenerWrapperState>());
+  }
 }
 
-class _State extends State<PageViewListenerWrapper> with PageTrackerAware, PageViewListenerMixin {
+class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with PageTrackerAware, PageViewListenerMixin {
+
+  // 向列表中的列表转发页面事件
+  Set<PageTrackerAware> subscribers;
+
+  @override
+  void initState() {
+    super.initState();
+
+    subscribers = Set<PageTrackerAware>();
+  }
+
+  // 子列表页面订阅页面事件
+  void subscribe(PageTrackerAware pageTrackerAware) {
+    subscribers.add(pageTrackerAware);
+  }
+
+  void unsubscribe(PageTrackerAware pageTrackerAware) {
+    subscribers.remove(pageTrackerAware);
+  }
+
   @override
   Widget build(BuildContext context) {
     return widget.child;
   }
+
 
   @override
   int get pageViewIndex => widget.index;
@@ -87,11 +113,17 @@ class _State extends State<PageViewListenerWrapper> with PageTrackerAware, PageV
   void didPageView() {
     super.didPageView();
     widget.onPageView != null ? widget.onPageView() : '';
+    subscribers.forEach((subscriber) {
+      subscriber.didPageView();
+    });
   }
 
   @override
   void didPageExit() {
     super.didPageExit();
     widget.onPageExit != null ? widget.onPageExit() : '';
+    subscribers.forEach((subscriber) {
+      subscriber.didPageExit();
+    });
   }
 }
