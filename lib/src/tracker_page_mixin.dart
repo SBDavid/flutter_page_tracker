@@ -6,7 +6,7 @@ import 'tracker_route_observer.dart';
 import 'page_view_listener_mixin.dart';
 
 mixin TrackerPageMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
-  TrackerStackObserver<PageRoute> _routeObserver;
+  TrackerStackObserver<ModalRoute> _routeObserver;
   PageViewListenerWrapperState _pageViewListenerWrapperState;
 
   @override

@@ -6,22 +6,40 @@ class TrackerStackObserver<R extends Route<dynamic>> extends NavigatorObserver {
 
   // 存放路由堆栈
   final List<Route> routes = [];
+  final List<Route> routesPopup = [];
   // 每个页面对应的监听
   final Map<R, Set<PageTrackerAware>> _listeners = <R, Set<PageTrackerAware>>{};
+  final Map<R, Set<PageTrackerAware>> _listenersPopup = <R, Set<PageTrackerAware>>{};
 
   void subscribe(PageTrackerAware pageTrackerAware, R route) {
     assert(pageTrackerAware != null);
     assert(route != null);
-    final Set<PageTrackerAware> subscribers = _listeners.putIfAbsent(route, () => Set<PageTrackerAware>());
-    if (subscribers.add(pageTrackerAware)) {
-      pageTrackerAware.didPageView();
+
+    if (route is PageRoute) {
+      final Set<PageTrackerAware> subscribers = _listeners.putIfAbsent(
+          route, () => Set<PageTrackerAware>());
+      if (subscribers.add(pageTrackerAware)) {
+        pageTrackerAware.didPageView();
+      }
+    } else if (route is PopupRoute) {
+      final Set<PageTrackerAware> subscribers = _listenersPopup.putIfAbsent(
+          route, () => Set<PageTrackerAware>());
+      if (subscribers.add(pageTrackerAware)) {
+        pageTrackerAware.didPageView();
+      }
     }
   }
 
   void unsubscribe(PageTrackerAware pageTrackerAware) {
     assert(pageTrackerAware != null);
+
     for (R route in _listeners.keys) {
       final Set<PageTrackerAware> subscribers = _listeners[route];
+      subscribers?.remove(pageTrackerAware);
+    }
+
+    for (R route in _listenersPopup.keys) {
+      final Set<PageTrackerAware> subscribers = _listenersPopup[route];
       subscribers?.remove(pageTrackerAware);
     }
   }
@@ -30,7 +48,8 @@ class TrackerStackObserver<R extends Route<dynamic>> extends NavigatorObserver {
   void didPush(Route route, Route previousRoute) {
     super.didPush(route, previousRoute);
 
-    if (route is R) {
+    // 之后正常页面（非弹窗）入栈之后，才会触发前一个页面的离开
+    if (route is PageRoute) {
       // 触发PageExit事件
       if (routes.length > 0) {
         R previousRoute = routes.last;
@@ -52,6 +71,9 @@ class TrackerStackObserver<R extends Route<dynamic>> extends NavigatorObserver {
           pageTrackerAware.didPageView();
         }
       }*/
+    } else if (route is PopupRoute) {
+      // 存储在路由栈上
+      routesPopup.add(route);
     }
   }
 
@@ -59,7 +81,7 @@ class TrackerStackObserver<R extends Route<dynamic>> extends NavigatorObserver {
   void didPop(Route route, Route previousRoute) {
     super.didPop(route, previousRoute);
 
-    if (route is R) {
+    if (route is PageRoute) {
       // 触发PageExit
       final Set<PageTrackerAware> subscribers = _listeners[route];
       if (subscribers != null) {
@@ -83,6 +105,17 @@ class TrackerStackObserver<R extends Route<dynamic>> extends NavigatorObserver {
           });
         }
       }
+    } else if (route is PopupRoute) {
+      // 触发PageExit
+      final Set<PageTrackerAware> subscribers = _listenersPopup[route];
+      if (subscribers != null) {
+        for (PageTrackerAware pageTrackerAware in subscribers) {
+          pageTrackerAware.didPageExit();
+        }
+      }
+
+      // 清除路由栈
+      routesPopup.remove(route);
     }
   }
 
@@ -90,18 +123,30 @@ class TrackerStackObserver<R extends Route<dynamic>> extends NavigatorObserver {
   void didRemove(Route route, Route previousRoute) {
     super.didRemove(route, previousRoute);
 
-    routes.remove(route);
+    if (route is PageRoute) {
+      routes.remove(route);
+    } else if (route is PopupRoute) {
+      routesPopup.remove(route);
+    }
   }
 
   @override
   void didReplace({Route newRoute, Route oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
 
-    int index = routes.indexOf(oldRoute);
-    assert(index != -1);
-    routes.removeAt(index);
+    if (oldRoute is PageRoute) {
+      int index = routes.indexOf(oldRoute);
+      assert(index != -1);
+      routes.removeAt(index);
 
-    routes.insert(index, newRoute);
+      routes.insert(index, newRoute);
+    } else if (oldRoute is PopupRoute) {
+      int index = routesPopup.indexOf(oldRoute);
+      assert(index != -1);
+      routesPopup.removeAt(index);
+
+      routesPopup.insert(index, newRoute);
+    }
   }
 
 }
