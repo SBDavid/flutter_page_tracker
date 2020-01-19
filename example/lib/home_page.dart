@@ -42,16 +42,32 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
                 showDialog(
                   context: context,
                   builder: (_) {
-                    return Container(
-                      height: 200,
-                      width: 200,
-                      color: Colors.amber,
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("打开弹窗，不产生埋点事件")
+                    return TrackerDialogWrapper(
+                      didPageView: () {
+                        print('dialog didPageView');
+                      },
+                      didPageExit: () {
+                        print('dialog didPageExit');
+                      },
+                      child: Container(
+                        height: 200,
+                        width: 200,
+                        color: Colors.amber,
+                        child: Column(
+                          children: <Widget>[
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("打开弹窗，不产生埋点事件")
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed("detail");
+                                },
+                                child: Text("打开detail页面")
+                            )
+                          ],
                         ),
                       ),
                     );
