@@ -7,3 +7,4 @@
 ## [1.1.0] - 支持在TabView中嵌套PageView
 ## [1.1.1] - - 修改provider版本到3.2.0
 ## [1.2.0] - 支持弹窗埋点
+## [1.2.1] - bugfix: 弹窗埋点可以不传didPageView/didPageExit

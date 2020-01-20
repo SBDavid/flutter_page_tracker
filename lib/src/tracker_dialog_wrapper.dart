@@ -33,7 +33,7 @@ class _State extends State<TrackerDialogWrapper> with PageTrackerAware, TrackerP
   void didPageView() {
     super.didPageView();
 
-    if (didPageView != null) {
+    if (widget.didPageView != null) {
       widget.didPageView();
     }
   }
@@ -42,7 +42,7 @@ class _State extends State<TrackerDialogWrapper> with PageTrackerAware, TrackerP
   void didPageExit() {
     super.didPageExit();
 
-    if (didPageExit != null) {
+    if (widget.didPageExit != null) {
       widget.didPageExit();
     }
   }

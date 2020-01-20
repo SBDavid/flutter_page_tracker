@@ -1,6 +1,6 @@
 name: flutter_page_tracker
 description: 页面曝光、离开事件埋点框架，支持TabView PageView
-version: 1.2.0
+version: 1.2.1
 author: DavidTang <billl89g@gmail.com>
 homepage: https://blog.csdn.net/billll
 
