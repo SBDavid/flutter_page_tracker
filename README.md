@@ -4,8 +4,9 @@
 FlutterPageTracker是一个用于监听页面`露出`、`离开`的plugin。它具有以下特性：
 
 - 1. 监听普通页面的`露出`和`离开`事件（PageRoute），
-    - 当前页面入栈会触发前一个页面的`离开事件`。
-    - 当前页面出栈会触发前一个页面的`曝光事件`。
+    - 当前页面入栈会触发当前页面的`曝光事件`和前一个页面的`离开事件`。
+    - 当前页面出栈会触发当前页面的`离开事件`和前一个页面的`曝光事件`。
+    - <img src="https://raw.githubusercontent.com/SBDavid/flutter_sliver_tracker/master/demo.gif" width="270" height="480" alt="图片名称">
 - 2. 监听对话框的`露出`和`离开`（PopupRoute），
     - 它和PageRoute的区别是，当前对话框的露出和关闭不会触发前一个页面的`露出`、`离开`事件
 - 3. 监听PageView、TabView组件的`切换`事件
