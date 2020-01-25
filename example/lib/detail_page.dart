@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 
 class DetailPage extends StatefulWidget {
-  DetailPage({Key key, this.title}) : super(key: key);
-
-
-  final String title;
+  DetailPage({Key key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -19,19 +16,35 @@ class _MyHomePageState extends State<DetailPage> with PageTrackerAware, TrackerP
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("PageRoute Demo"),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Container(
+        color: Colors.blue,
+        padding: EdgeInsets.all(10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Detail Page',
+              "When a PageRoute is added to navigation stack, a PageExit event "
+                  "will be trigged on previous route and you can override didPageExit method"
+                  "by using TrackerPageMixin. ",
             ),
+            Container(
+              height: 10,
+            ),
+            Text(
+              "After PageExit event, a PageView event will be trigged on current route.",
+            ),
+            Container(
+              height: 10,
+            ),
+            Text("Vice versa for the pop of PageRoute."),
+            Container(
+              height: 50,
+            ),
+            Text("You can see 'PageExit: PageRoute' and 'PageView: PageRoute' in the "
+                "console panel.")
           ],
         ),
       ),// This trailing comma makes auto-formatting nicer for build methods.
@@ -42,13 +55,13 @@ class _MyHomePageState extends State<DetailPage> with PageTrackerAware, TrackerP
   void didPageView() {
     super.didPageView();
 
-    print("tracker pageview detail");
+    print("PageView: PageRoute");
   }
 
   @override
   void didPageExit() {
     super.didPageExit();
 
-    print("tracker pageExit detail");
+    print("PageExit: PageRoute");
   }
 }

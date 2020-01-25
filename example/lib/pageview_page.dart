@@ -24,6 +24,62 @@ class _MyHomePageState extends State<PageViewPage> with AutomaticKeepAliveClient
     pageController = PageController();
   }
 
+  Widget _buildPage(int index, int color) {
+    return PageViewListenerWrapper(
+      index,
+      onPageView: () {
+        print("pageview $index");
+      },
+      onPageExit: () {
+        print("pageexit $index");
+      },
+      child: SafeArea(
+        child: Container(
+          color: Colors.blue[color],
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Page $index", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
+                    Container(height: 50,),
+                    Text("For PageView and TabView, PageView and PageExit will be trigged when you "
+                    "switch between views."),
+                    Container(height: 15,),
+                    Text("You can see 'PageView $index' and 'PageExit $index' in the console."),
+                    Container(height: 15,),
+                    Text("PageExit event will also be trigged when you push a new PageRoute on current stack. "
+                        "Try it by clicking the buttom show below. "),
+                    Container(height: 15,),
+                    Text("When you pop a PageRoute, the previous "
+                        "focused page will receive a PageView event. "),
+                    Container(height: 50,),
+                    Text("Try slide", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600))
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed("detail");
+                },
+                child: Container(
+                  color: Colors.amber,
+                  height: 50,
+                  child: Center(
+                    child: Text("Go to another PageRoute"),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -40,58 +96,9 @@ class _MyHomePageState extends State<PageViewPage> with AutomaticKeepAliveClient
         child: PageView(
           controller: pageController,
           children: <Widget>[
-            PageViewListenerWrapper(
-              0,
-              onPageView: () {
-                print("pageview pageview 0");
-              },
-              onPageExit: () {
-                print("pageview pageexit 0");
-              },
-              child: Container(
-                child: Center(
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("detail");
-                      },
-                      child: Text("Page 0 -> detail page")
-                  ),
-                ),
-              ),
-            ),
-            PageViewListenerWrapper(
-              1,
-              onPageView: () {
-                print("pageview pageview 1");
-              },
-              onPageExit: () {
-                print("pageview pageexit 1");
-              },
-              child: Container(
-                child: Center(
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed("detail");
-                      },
-                      child: Text("Page 1 -> detail page")
-                  ),
-                ),
-              ),
-            ),
-            PageViewListenerWrapper(
-              2,
-              onPageView: () {
-                print("pageview pageview 2");
-              },
-              onPageExit: () {
-                print("pageview pageexit 2");
-              },
-              child: Container(
-                child: Center(
-                  child: Text("Page 2"),
-                ),
-              ),
-            )
+            _buildPage(0, 300),
+            _buildPage(1, 600),
+            _buildPage(2, 900),
           ],
         ),
       )

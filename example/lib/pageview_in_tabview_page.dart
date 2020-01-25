@@ -28,6 +28,118 @@ class _State extends State<PageviewInTabviewPage> with TickerProviderStateMixin,
     pageController = PageController();
   }
 
+  Widget _buildTag(BuildContext _, int index, int color) {
+    return Builder(
+      builder: (_) {
+
+        return PageViewListenerWrapper(
+          index,
+          onPageView: () {
+            print("TabView: PageView $index");
+          },
+          onPageExit: () {
+            print("TabView: PageExit $index");
+          },
+          child: Container(
+            color: Colors.blue[color],
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Tab $index: normal tab", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 45,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed("detail");
+                    },
+                    child: Container(
+                      color: Colors.amber,
+                      height: 50,
+                      child: Center(
+                        child: Text("Go to another PageRoute"),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildPage(int index, int color) {
+    return PageViewListenerWrapper(
+      index,
+      onPageView: () {
+        print("pageview $index");
+      },
+      onPageExit: () {
+        print("pageexit $index");
+      },
+      child: SafeArea(
+        child: Container(
+          color: Colors.blue[color],
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Page $index wrapped in Tab1", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),
+                    Container(height: 50,),
+                    Text("For PageView and TabView, PageView and PageExit will be trigged when you "
+                        "switch between views."),
+                    Container(height: 15,),
+                    Text("You can see 'PageView $index' and 'PageExit $index' in the console."),
+                    Container(height: 15,),
+                    Text("PageExit event will also be trigged when you push a new PageRoute on current stack. "
+                        "Try it by clicking the buttom show below. "),
+                    Container(height: 15,),
+                    Text("When you pop a PageRoute, the previous "
+                        "focused page will receive a PageView event. "),
+                    Container(height: 50,),
+                    Text("Try slide", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600))
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 45,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed("detail");
+                  },
+                  child: Container(
+                    color: Colors.amber,
+                    height: 50,
+                    child: Center(
+                      child: Text("Go to another PageRoute"),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -65,117 +177,17 @@ class _State extends State<PageviewInTabviewPage> with TickerProviderStateMixin,
                             child: PageView(
                               controller: pageController,
                               children: <Widget>[
-                                PageViewListenerWrapper(
-                                  0,
-                                  onPageView: () {
-                                    print("pageview pageview 0");
-                                  },
-                                  onPageExit: () {
-                                    print("pageview pageexit 0");
-                                  },
-                                  child: Container(
-                                    color: Colors.pink,
-                                    child: Center(
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed("detail");
-                                          },
-                                          child: Text("Page 0 -> detail page")
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                PageViewListenerWrapper(
-                                  1,
-                                  onPageView: () {
-                                    print("pageview pageview 1");
-                                  },
-                                  onPageExit: () {
-                                    print("pageview pageexit 1");
-                                  },
-                                  child: Container(
-                                    color: Colors.pink,
-                                    child: Center(
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed("detail");
-                                          },
-                                          child: Text("Page 1 -> detail page")
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                PageViewListenerWrapper(
-                                  2,
-                                  onPageView: () {
-                                    print("pageview pageview 2");
-                                  },
-                                  onPageExit: () {
-                                    print("pageview pageexit 2");
-                                  },
-                                  child: Container(
-                                    color: Colors.pink,
-                                    child: Center(
-                                      child: Text("Page 2"),
-                                    ),
-                                  ),
-                                )
+                                _buildPage(0, 100),
+                                _buildPage(1, 300),
+                                _buildPage(2, 500)
                               ],
                             ),
                           )
                         );
                       },
                     ),
-                    Builder(
-                      builder: (_) {
-
-                        return PageViewListenerWrapper(
-                          1,
-                          onPageView: () {
-                            print("tabbar pageview 1");
-                          },
-                          onPageExit: () {
-                            print("tabbar pageexit 1");
-                          },
-                          child: Container(
-                            color: Colors.amber,
-                            child: Center(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed("detail");
-                                  },
-                                  child: Text("Page 1 -> detail page")
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    Builder(
-                      builder: (_) {
-
-                        return PageViewListenerWrapper(
-                          2,
-                          onPageView: () {
-                            print("tabbar pageview 2");
-                          },
-                          onPageExit: () {
-                            print("tabbar pageexit 2");
-                          },
-                          child: Container(
-                            color: Colors.amber,
-                            child: Center(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed("detail");
-                                  },
-                                  child: Text("Page 1 -> detail page")
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                    _buildTag(context, 1, 600),
+                    _buildTag(context, 2, 900),
                   ],
                 ),
               ),
@@ -186,9 +198,9 @@ class _State extends State<PageviewInTabviewPage> with TickerProviderStateMixin,
                 child: TabBar(
                   controller: tabController,
                   tabs: <Widget>[
-                    Tab(text: "tab11",),
-                    Tab(text: "tab22",),
-                    Tab(text: "tab33",),
+                    Tab(text: "Tab1",),
+                    Tab(text: "Tab2",),
+                    Tab(text: "Tab3",),
                   ],
                 ),
               ),

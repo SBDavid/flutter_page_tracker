@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_page_tracker/flutter_page_tracker.dart';
+import 'package:example/popup_page.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -14,6 +17,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerPageMixin {
 
 
+  Widget _button(String text, VoidCallback onTap) {
+    return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          color: Colors.amber[500 + 100 * Random().nextInt(4)],
+          height: 50,
+          child: Center(
+            child: Text(text),
+          ),
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -23,83 +39,73 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed("detail");
-              },
-              child: Text(
-                '跳转普通页面，产生埋点事件',
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Container(
+                color: Colors.blue,
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("flutter_page_tracker is a flutter plugin which "
+                        "help tracking route events of PageRoute/PopupRoute/PageView/TabView."),
+                    Container(height: 50,),
+                    Text("1. Route events include PageView and PageExit."),
+                    Container(height: 15,),
+                    Text("2. For PageRoute, when the current route is pushed to the top of the stack, "
+                        "a PageView event will be trigged on the current, and a PageExit event will "
+                        "be trigged on previous route, and vice versa for pop route."),
+                    Container(height: 15,),
+                    Text("3. For PopupRoute, only PageView will be trigged when dialog "
+                        "is pushed, and vice versa for pop route."),
+                    Container(height: 15,),
+                    Text("4. For PageView and TabView, PageView and PageExit will be trigged when you "
+                        "switch between views.")
+                  ],
+                ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (_) {
-                    return TrackerDialogWrapper(
-                      didPageView: () {
-                        print('dialog didPageView');
-                      },
-                      didPageExit: () {
-                        print('dialog didPageExit');
-                      },
-                      child: Container(
-                        height: 200,
-                        width: 200,
-                        color: Colors.amber,
-                        child: Column(
-                          children: <Widget>[
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("打开弹窗，不产生埋点事件")
-                            ),
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed("detail");
-                                },
-                                child: Text("打开detail页面")
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-                );
-              },
-              child: Text(
-                '打开弹窗，不产生埋点事件',
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed("pageview");
-              },
-              child: Text(
-                'PageView页面，产生埋点事件',
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed("tabview");
-              },
-              child: Text(
-                'TapView页面，产生埋点事件',
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed("pageviewInTabView");
-              },
-              child: Text(
-                'pageviewInTabView页面，产生埋点事件',
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  _button(
+                    'PageRoute demo',
+                    () {
+                      Navigator.of(context).pushNamed("detail");
+                    }
+                  ),
+                  _button(
+                    'PopupRoute demo',
+                          () {
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return PopupPage();
+                            }
+                        );
+                      }
+                  ),
+                  _button(
+                    'PageView demo',
+                    () {
+                      Navigator.of(context).pushNamed("pageview");
+                    }
+                  ),
+                  _button(
+                      'TapView demo',
+                          () {
+                            Navigator.of(context).pushNamed("tabview");
+                      }
+                  ),
+                  _button(
+                      'Pageview Wraped in TabView demo',
+                          () {
+                        Navigator.of(context).pushNamed("pageviewInTabView");
+                      }
+                  ),
+                ],
               ),
             ),
           ],
