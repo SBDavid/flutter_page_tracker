@@ -1,6 +1,20 @@
 # flutter_page_tracker
 
-滑动页面吧埋点框架，支持TabView组件和PageView组件
+## 简介
+FlutterPageTracker是一个用于监听页面`露出`、`离开`的plugin。它具有以下特性：
+
+- 1. 监听普通页面的`露出`和`离开`事件（PageRoute），
+    - 当前页面入栈会触发前一个页面的`离开事件`。
+    - 当前页面出栈会触发前一个页面的`曝光事件`。
+- 2. 监听对话框的`露出`和`离开`（PopupRoute），
+    - 它和PageRoute的区别是，当前对话框的露出和关闭不会触发前一个页面的`露出`、`离开`事件
+- 3. 监听PageView、TabView组件的`切换`事件
+    - 当一个PageView或者TabView`入栈`时，前一个页面会触发页面`离开事件`
+    - 当一个PageView或者TabView`出栈`时，前一个页面会触发页面`曝光事件`
+    - 当焦点页面发生变化时，旧的页面触发页面露出，新的页面触发PageView
+- 4. PageView和TabView嵌套使用
+    - 我们可以将这两种组件嵌套在一起使用，不限制嵌套的层次
+    - 发生焦点变化的PageView（或者TabView）以及它的子级都会受到`曝光事件`和`离开事件`
 
 ![demo](https://raw.githubusercontent.com/SBDavid/flutter_page_tracker/master/demo.gif)
 

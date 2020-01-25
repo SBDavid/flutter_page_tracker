@@ -8,3 +8,4 @@
 ## [1.1.1] - - 修改provider版本到3.2.0
 ## [1.2.0] - 支持弹窗埋点
 ## [1.2.1] - bugfix: 弹窗埋点可以不传didPageView/didPageExit
+## [1.2.2] - 升级demo和文档
