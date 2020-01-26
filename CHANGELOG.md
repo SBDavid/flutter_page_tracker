@@ -9,3 +9,4 @@
 ## [1.2.0] - 支持弹窗埋点
 ## [1.2.1] - bugfix: 弹窗埋点可以不传didPageView/didPageExit
 ## [1.2.2] - 升级demo和文档
+## [1.2.3] - 更具pub.dev的提示修改文档和代码

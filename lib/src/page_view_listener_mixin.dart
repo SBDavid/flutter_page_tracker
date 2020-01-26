@@ -112,7 +112,9 @@ class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with P
   @override
   void didPageView() {
     super.didPageView();
-    widget.onPageView != null ? widget.onPageView() : '';
+    if (widget.onPageView != null) {
+      widget.onPageView();
+    }
     subscribers.forEach((subscriber) {
       subscriber.didPageView();
     });
@@ -121,7 +123,9 @@ class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with P
   @override
   void didPageExit() {
     super.didPageExit();
-    widget.onPageExit != null ? widget.onPageExit() : '';
+    if (widget.onPageExit != null) {
+      widget.onPageExit();
+    }
     subscribers.forEach((subscriber) {
       subscriber.didPageExit();
     });
