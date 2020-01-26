@@ -157,6 +157,77 @@ class _State extends State<TabViewPage> with TickerProviderStateMixin {
 ```
 
 #### 3.4 TabView中嵌套PageView（PageView也可以嵌套TabView，TabView也可以嵌套TabView）
+```dart
+class PageViewInTabViewPage extends StatefulWidget {
+
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<PageViewInTabViewPage> with TickerProviderStateMixin {
+
+  TabController tabController;
+  PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    pageController = PageController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+        // 外层TabView
+        body: PageViewWrapper(
+          pageAmount: 3, // 子Tab数量
+          initialPage: 0, // 首个展现的Tab序号
+          changeDelegate: TabViewChangeDelegate(tabController),
+          child: TabBarView(
+            controller: tabController,
+            children: <Widget>[
+              Builder(
+                builder: (BuildContext context) {
+                  // 转发上层的事件
+                  return PageViewListenerWrapper(
+                      0,
+                      // 内层PageView
+                      child: PageViewWrapper(
+                        changeDelegate: PageViewChangeDelegate(pageController),
+                        pageAmount: 3,
+                        initialPage: pageController.initialPage,
+                        child: PageView(
+                          controller: pageController,
+                          children: <Widget>[
+                            PageViewListenerWrapper(
+                              0,
+                              onPageView: () {
+                                // 页面露出事件
+                              },
+                              onPageExit: () {
+                                // 页面离开事件
+                              },
+                              child: Container()
+                            ),
+                            // PageView中的第二个页面
+                            // PageView中的第三个页面
+                          ],
+                        ),
+                      )
+                  );
+                },
+              ),
+              // tab2
+              // tab3
+            ],
+          ),
+        )
+    );
+  }
+}
+```
 
 ## 原理篇
 ###  1.概述

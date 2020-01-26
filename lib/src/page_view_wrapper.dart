@@ -99,12 +99,14 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
     return widget.child;
   }
 
+  // PageView/TabView嵌套时使用，将上层的事件转发到下层
   @override
   void didPageView() {
     super.didPageView();
     controllers[currPageIndex].add(PageTrackerEvent.PageView);
   }
 
+  // PageView/TabView嵌套时使用，将上层的事件转发到下层
   @override
   void didPageExit() {
     super.didPageExit();
