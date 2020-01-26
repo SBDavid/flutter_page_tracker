@@ -22,16 +22,23 @@ FlutterPageTracker是一个用于监听页面`露出`、`离开`的plugin。它�
     - 我们可以将这两种组件嵌套在一起使用，不限制嵌套的层次
     - 发生焦点变化的PageView（或者TabView）以及它的子级都会受到`曝光事件`和`离开事件`
     - ![demo](https://raw.githubusercontent.com/SBDavid/flutter_page_tracker/master/gifs/5PageViewInTabView.gif)
+    
+## 运行Demo程序
+
+- 克隆代码到本地: git clone git@github.com:SBDavid/flutter_page_tracker.git
+- 切换工作路径: cd flutter_page_tracker/example/
+- 启动模拟器
+- 运行: flutter run
 
 ## 使用
 
 ### 1. 安装
 ```yaml
 dependencies:
-  flutter_page_tracker: ^1.0.0
+  flutter_page_tracker: ^1.2.2
 ```
 
-### 2. 引用
+### 2. 引入flutter_page_tracker
 ```dart
 import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 ```
@@ -48,6 +55,9 @@ void main() => runApp(
 ```
 
 #### 3.2 在组件中发送埋点事件
+
+必须使用`PageTrackerAware`和`TrackerPageMixin`这两个mixin
+
 ```dart
 class HomePageState extends State<MyHomePage> with PageTrackerAware, TrackerPageMixin {
     @override
@@ -58,14 +68,39 @@ class HomePageState extends State<MyHomePage> with PageTrackerAware, TrackerPage
     @override
     void didPageView() {
         super.didPageView();
-        print("send pageview event");
+        // 发送页面露出事件
     }
 
     @override
     void didPageExit() {
         super.didPageExit();
-        print("send pageExit event");
+        // 发送页面离开事件
     }
+}
+```
+
+#### 3.3 Dialog的埋点
+```dart
+class PopupPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      children: <Widget>[
+        TrackerDialogWrapper(
+        
+          didPageView: () {
+            // 发送页面曝光事件
+          },
+          
+          didPageExit: () {
+            // 发送页面离开事件
+          },
+          child: Container(),
+        ),
+      ],
+    );
+  }
 }
 ```
 
@@ -79,78 +114,49 @@ class TabViewPage extends StatefulWidget {
 }
 
 class _State extends State<TabViewPage> with TickerProviderStateMixin {
-  TabController tabController;
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(initialIndex: 0, length: 3, vsync: this);
-  }
+  TabController tabController = TabController(initialIndex: 0, length: 3, vsync: this);
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: SafeArea(
-          child: Stack(
-            alignment: Alignment.bottomCenter,
+        // 添加TabView的包裹层
+        body: PageViewWrapper(
+          // Tab页数量
+          pageAmount: 3,
+          // 初始Tab下标
+          initialPage: 0, 
+          // 监听Tab onChange事件
+          changeDelegate: TabViewChangeDelegate(tabController),
+          child: TabBarView(
+            controller: tabController,
             children: <Widget>[
-              // 添加TabView的包裹层  
-              PageViewWrapper(
-                // Tab页数量
-                pageAmount: 3,
-                // 初始Tab下标
-                initialPage: 0, 
-                // 监听Tab onChange事件
-                changeDelegate: TabViewChangeDelegate(tabController),
-                child: TabBarView(
-                  controller: tabController,
-                  children: <Widget>[
-                    Builder(
-                      builder: (_) {
-                        // 监听由PageViewWrapper转发的PageView，PageExit事件
-                        return PageViewListenerWrapper(
-                          0,
-                          onPageView: () {
-                            print("send pageview of tab1");
-                          },
-                          onPageExit: () {
-                            print("send pageexit of tab1");
-                          },
-                          child: Container(
-                            color: Colors.amber,
-                            child: Center(
-                              child: Text("tab1"),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    // 第二个Tab
-                    // 第三个Tab
-                  ],
-                ),
+              Builder(
+                builder: (_) {
+                  // 监听由PageViewWrapper转发的PageView，PageExit事件
+                  return PageViewListenerWrapper(
+                    0,
+                    onPageView: () {
+                      // 发送页面曝光事件
+                    },
+                    onPageExit: () {
+                      // 发送页面离开事件
+                    },
+                    child: Container(),
+                  );
+                },
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: TabBar(
-                  controller: tabController,
-                  tabs: <Widget>[
-                    Tab(text: "tab1",),
-                    Tab(text: "tab2",),
-                    Tab(text: "tab3",),
-                  ],
-                ),
-              ),
+              // 第二个Tab
+              // 第三个Tab
             ],
           ),
-        )
+        ),
     );
   }
 }
 ```
 
+#### 3.4 TabView中嵌套PageView（PageView也可以嵌套TabView，TabView也可以嵌套TabView）
 
 ## 原理篇
 ###  1.概述
