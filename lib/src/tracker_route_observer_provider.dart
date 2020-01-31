@@ -1,20 +1,27 @@
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'tracker_route_observer.dart';
 
-class TrackerRouteObserverProvider extends Provider<TrackerStackObserver<ModalRoute>> {
+class TrackerRouteObserverProvider extends InheritedWidget {
+
+  final TrackerStackObserver<ModalRoute> trackerStackObserver = TrackerStackObserver<ModalRoute>();
+
   TrackerRouteObserverProvider({
     Key key,
-    Widget child,
-  }) : super(
-    create: (context) => TrackerStackObserver<ModalRoute>(),
-    key: key,
-    child: child,
-  );
+    @required Widget child,
+  }): super(key: key, child: child);
 
-  static TrackerStackObserver<ModalRoute> of(BuildContext context) =>
-      Provider.of<TrackerStackObserver<ModalRoute>>(
-        context,
-        listen: false,
-      );
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return false;
+  }
+
+  static TrackerStackObserver<ModalRoute> of(BuildContext context) {
+    try {
+      return (context.inheritFromWidgetOfExactType(
+          TrackerRouteObserverProvider) as TrackerRouteObserverProvider)
+          .trackerStackObserver;
+    } catch (err) {
+      return null;
+    }
+  }
 }

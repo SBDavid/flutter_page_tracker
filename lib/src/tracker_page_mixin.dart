@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'page_tracker_aware.dart';
 import 'tracker_route_observer.dart';
 import 'page_view_listener_mixin.dart';
+import 'tracker_route_observer_provider.dart';
 
 mixin TrackerPageMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
   TrackerStackObserver<ModalRoute> _routeObserver;
@@ -27,7 +27,7 @@ mixin TrackerPageMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
     if (_routeObserver != null) {
       return;
     }
-    _routeObserver = Provider.of(context, listen: false)
+    _routeObserver = TrackerRouteObserverProvider.of(context)
       ..subscribe(
         this,
         ModalRoute.of(context),

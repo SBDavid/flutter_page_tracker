@@ -10,3 +10,4 @@
 ## [1.2.1] - bugfix: 弹窗埋点可以不传didPageView/didPageExit
 ## [1.2.2] - 升级demo和文档
 ## [1.2.3] - 更具pub.dev的提示修改文档和代码
+## [2.0.0] - 去除对provider的依赖，并支持最新版本flutter1.2
