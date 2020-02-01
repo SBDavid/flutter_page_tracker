@@ -22,6 +22,9 @@ FlutterPageTracker是一个用于监听页面`露出`、`离开`的plugin。它�
     - 我们可以将这两种组件嵌套在一起使用，不限制嵌套的层次
     - 发生焦点变化的PageView（或者TabView）以及它的子级都会受到`曝光事件`和`离开事件`
     - ![demo](https://raw.githubusercontent.com/SBDavid/flutter_page_tracker/master/gifs/5PageViewInTabView.gif)
+- 5.滑动曝光事件
+    - 如果你对列表的滑动露出事件感兴趣，你可以参考flutter_sliver_tracker插件
+    - `https://github.com/SBDavid/flutter_sliver_tracker`
     
 ## 运行Demo程序
 

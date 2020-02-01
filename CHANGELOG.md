@@ -11,3 +11,4 @@
 ## [1.2.2] - 升级demo和文档
 ## [1.2.3] - 更具pub.dev的提示修改文档和代码
 ## [2.0.0] - 去除对provider的依赖，并支持最新版本flutter1.2
+## [2.0.1] - 修改文档，增加flutter_sliver_tracker的外链
