@@ -25,6 +25,7 @@ FlutterPageTracker是一个用于监听页面`露出`、`离开`的plugin。它�
 - 5.滑动曝光事件
     - 如果你对列表的滑动露出事件感兴趣，你可以参考flutter_sliver_tracker插件
     - `https://github.com/SBDavid/flutter_sliver_tracker`
+    - ![demo](https://raw.githubusercontent.com/SBDavid/flutter_sliver_tracker/master/demo.gif)
     
 ## 运行Demo程序
 

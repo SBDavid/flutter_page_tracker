@@ -10,5 +10,6 @@
 ## [1.2.1] - bugfix: 弹窗埋点可以不传didPageView/didPageExit
 ## [1.2.2] - 升级demo和文档
 ## [1.2.3] - 更具pub.dev的提示修改文档和代码
-## [2.0.0] - 去除对provider的依赖，并支持最新版本flutter1.2
+## [2.0.0] - 去除对provider的依赖，并支持最新版本flutter1.9.1
 ## [2.0.1] - 修改文档，增加flutter_sliver_tracker的外链
+## [2.0.2] - 修改文档，增加flutter_sliver_tracker的图片
