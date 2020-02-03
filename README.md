@@ -108,7 +108,88 @@ class PopupPage extends StatelessWidget {
 }
 ```
 
-#### 3.3 TabView发送埋点事件（PageView参考example）
+#### 3.3 PageView发送埋点事件
+
+在`StatefulWidget`中，推荐直接使用`PageViewListenerMixin`发送页面事件，如果是`StatelessWidget`组件则可以使用`PageViewListenerWrapper`。
+`PageViewListenerWrapper`内部也是使用`PageViewListenerMixin`来发送事件。
+
+```dart
+
+// 嵌入到PageView组件中页面
+class Page extends StatefulWidget {
+  final int index;
+
+  const Page({Key key, this.index}): super(key: key);
+
+  @override
+  PageState createState() {
+    return PageState();
+  }
+}
+
+class PageState extends State<Page> with PageTrackerAware, PageViewListenerMixin {
+
+  int get pageViewIndex => widget.index;
+
+  @override
+  void didPageView() {
+    super.didPageView();
+    // 页面曝光事件
+  }
+
+  @override
+  void didPageExit() {
+    super.didPageExit();
+    // 页面离开事件
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+// PageView组件
+class PageViewMixinPage extends StatefulWidget {
+
+  @override
+  PageViewMixinPageState createState() => PageViewMixinPageState();
+}
+
+class PageViewMixinPageState extends State<PageViewMixinPage> {
+
+  PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageViewWrapper(
+       changeDelegate: PageViewChangeDelegate(pageController),
+       pageAmount: 3,
+       initialPage: pageController.initialPage,
+       child: PageView(
+         controller: pageController,
+         children: <Widget>[
+           Page(index: 0,),
+           Page(index: 1,),
+           Page(index: 3,),
+         ],
+       ),
+     );
+  }
+}
+```
+
+#### 3.4 TabView发送埋点事件
+
+在这个例子中我们只用`PageViewListenerWrapper`来发送页面事件，我们也可以向例子3.3中一样使用直接使用`PageViewListenerMixin`。
+在`StatefulWidget`中，荐使用`mixin`更简洁。
+
 ```dart
 class TabViewPage extends StatefulWidget {
   TabViewPage({Key key,}) : super(key: key);
@@ -160,7 +241,11 @@ class _State extends State<TabViewPage> with TickerProviderStateMixin {
 }
 ```
 
-#### 3.4 TabView中嵌套PageView（PageView也可以嵌套TabView，TabView也可以嵌套TabView）
+#### 3.5 TabView中嵌套PageView（PageView也可以嵌套TabView，TabView也可以嵌套TabView）
+
+在这个例子中我们只用`PageViewListenerWrapper`来发送页面事件，我们也可以向例子3.3中一样使用直接使用`PageViewListenerMixin`。
+在`StatefulWidget`中，荐使用`mixin`更简洁。
+
 ```dart
 class PageViewInTabViewPage extends StatefulWidget {
 

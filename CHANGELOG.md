@@ -13,3 +13,4 @@
 ## [2.0.0] - 去除对provider的依赖，并支持最新版本flutter1.9.1
 ## [2.0.1] - 修改文档，增加flutter_sliver_tracker的外链
 ## [2.0.2] - 修改文档，增加flutter_sliver_tracker的图片
+## [2.1.0] - PageView/TabView推荐直接使用mixin，但是StatelessWidget只能使用Wrapper

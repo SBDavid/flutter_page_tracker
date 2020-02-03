@@ -31,11 +31,18 @@ class PageViewWrapper extends StatefulWidget {
 
   // 用于子页面事件监听
   static Stream<PageTrackerEvent> of(BuildContext context, int index) {
-    assert(index >= 0);
-    List<Stream<PageTrackerEvent>> broadCaseStreams = (context.ancestorStateOfType(TypeMatcher<PageViewWrapperState>()) as PageViewWrapperState).broadCaseStreams;
-    assert(index < broadCaseStreams.length);
+    try {
+      assert(index >= 0);
+      List<Stream<PageTrackerEvent>> broadCaseStreams = (context
+          .ancestorStateOfType(
+          TypeMatcher<PageViewWrapperState>()) as PageViewWrapperState)
+          .broadCaseStreams;
+      assert(index < broadCaseStreams.length);
 
-    return broadCaseStreams[index];
+      return broadCaseStreams[index];
+    } catch (err) {
+      return null;
+    }
   }
 }
 

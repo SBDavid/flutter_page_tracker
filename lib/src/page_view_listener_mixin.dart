@@ -8,13 +8,26 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
 
   StreamSubscription<PageTrackerEvent> sb;
   bool isPageView = false;
+  // 向列表中的列表转发页面事件
+  Set<PageTrackerAware> subscribers;
+
+  @override
+  void initState() {
+    super.initState();
+
+    subscribers = Set<PageTrackerAware>();
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (sb == null) {
-      sb = PageViewWrapper.of(context, pageViewIndex).listen(
-          _onPageTrackerEvent);
+    if (sb == null && pageViewIndex!= null) {
+
+      Stream<PageTrackerEvent> stream = PageViewWrapper.of(context, pageViewIndex);
+      // 如果外围没有包裹PageViewWrapper，那么stream为null
+      if (stream != null) {
+        sb = stream.listen(_onPageTrackerEvent);
+      }
     }
   }
 
@@ -37,11 +50,28 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
   @override
   void didPageView() {
     super.didPageView();
+
+    subscribers.forEach((subscriber) {
+      subscriber.didPageView();
+    });
   }
 
   @override
   void didPageExit() {
     super.didPageExit();
+
+    subscribers.forEach((subscriber) {
+      subscriber.didPageExit();
+    });
+  }
+
+  // 子列表页面订阅页面事件
+  void subscribe(PageTrackerAware pageTrackerAware) {
+    subscribers.add(pageTrackerAware);
+  }
+
+  void unsubscribe(PageTrackerAware pageTrackerAware) {
+    subscribers.remove(pageTrackerAware);
   }
 
   @override
@@ -81,25 +111,6 @@ class PageViewListenerWrapper extends StatefulWidget {
 
 class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with PageTrackerAware, PageViewListenerMixin {
 
-  // 向列表中的列表转发页面事件
-  Set<PageTrackerAware> subscribers;
-
-  @override
-  void initState() {
-    super.initState();
-
-    subscribers = Set<PageTrackerAware>();
-  }
-
-  // 子列表页面订阅页面事件
-  void subscribe(PageTrackerAware pageTrackerAware) {
-    subscribers.add(pageTrackerAware);
-  }
-
-  void unsubscribe(PageTrackerAware pageTrackerAware) {
-    subscribers.remove(pageTrackerAware);
-  }
-
   @override
   Widget build(BuildContext context) {
     return widget.child;
@@ -115,9 +126,6 @@ class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with P
     if (widget.onPageView != null) {
       widget.onPageView();
     }
-    subscribers.forEach((subscriber) {
-      subscriber.didPageView();
-    });
   }
 
   @override
@@ -126,8 +134,5 @@ class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with P
     if (widget.onPageExit != null) {
       widget.onPageExit();
     }
-    subscribers.forEach((subscriber) {
-      subscriber.didPageExit();
-    });
   }
 }
