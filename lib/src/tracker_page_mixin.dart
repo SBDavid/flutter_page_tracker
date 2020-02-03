@@ -17,7 +17,7 @@ mixin TrackerPageMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
       return;
     }
 
-    _pageViewListenerWrapperState = PageViewListenerWrapper.of(context);
+    _pageViewListenerWrapperState = PageViewListenerMixin.of(context);
     if (_pageViewListenerWrapperState != null) {
       _pageViewListenerWrapperState.subscribe(this);
       return;

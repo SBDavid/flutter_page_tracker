@@ -81,6 +81,10 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
     sb?.cancel();
     super.dispose();
   }
+
+  static PageViewListenerWrapperState of(BuildContext context) {
+    return context.ancestorStateOfType(TypeMatcher<PageViewListenerWrapperState>());
+  }
 }
 
 
@@ -104,9 +108,6 @@ class PageViewListenerWrapper extends StatefulWidget {
     return PageViewListenerWrapperState();
   }
 
-  static PageViewListenerWrapperState of(BuildContext context) {
-    return context.ancestorStateOfType(TypeMatcher<PageViewListenerWrapperState>());
-  }
 }
 
 class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with PageTrackerAware, PageViewListenerMixin {

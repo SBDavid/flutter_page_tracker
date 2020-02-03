@@ -14,3 +14,4 @@
 ## [2.0.1] - 修改文档，增加flutter_sliver_tracker的外链
 ## [2.0.2] - 修改文档，增加flutter_sliver_tracker的图片
 ## [2.1.0] - PageView/TabView推荐直接使用mixin，但是StatelessWidget只能使用Wrapper
+## [2.1.1] - bugfix: 使用PageViewListenerMixin上的of发放
