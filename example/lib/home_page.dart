@@ -88,7 +88,13 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
                       }
                   ),
                   _button(
-                    'PageView demo',
+                      'PageView Mixin demo',
+                          () {
+                        Navigator.of(context).pushNamed("pageview_mixin");
+                      }
+                  ),
+                  _button(
+                    'PageView Wrapper demo',
                     () {
                       Navigator.of(context).pushNamed("pageview");
                     }

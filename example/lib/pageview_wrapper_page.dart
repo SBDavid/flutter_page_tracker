@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 
-class PageViewPage extends StatefulWidget {
-  PageViewPage({Key key, this.title}) : super(key: key);
+class PageViewWrapperPage extends StatefulWidget {
+  PageViewWrapperPage({Key key, this.title}) : super(key: key);
 
 
   final String title;
@@ -11,7 +11,7 @@ class PageViewPage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<PageViewPage> with AutomaticKeepAliveClientMixin<PageViewPage> {
+class _MyHomePageState extends State<PageViewWrapperPage> with AutomaticKeepAliveClientMixin<PageViewWrapperPage> {
 
   @override
   bool get wantKeepAlive => true;
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<PageViewPage> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by

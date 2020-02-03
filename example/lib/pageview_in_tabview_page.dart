@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 
-import 'pageview_page.dart';
+import 'pageview_wrapper_page.dart';
 
 class PageviewInTabviewPage extends StatefulWidget {
   PageviewInTabviewPage({Key key, this.title}) : super(key: key);

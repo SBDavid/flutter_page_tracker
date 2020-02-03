@@ -88,7 +88,7 @@ class _State extends State<TabViewPage> with TickerProviderStateMixin, Automatic
 
   @override
   Widget build(BuildContext context) {
-
+    super.build(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),

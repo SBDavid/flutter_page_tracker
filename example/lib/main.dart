@@ -4,9 +4,10 @@ import 'package:flutter_page_tracker/flutter_page_tracker.dart';
 // 页面
 import 'home_page.dart';
 import 'detail_page.dart';
-import 'pageview_page.dart';
+import 'pageview_wrapper_page.dart';
 import 'tabview_page.dart';
 import 'pageview_in_tabview_page.dart';
+import 'pageview_mixin_page.dart';
 
 void main() => runApp(
   TrackerRouteObserverProvider(
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "home": (_) => MyHomePage(title: 'Flutter_Page_tracker Demo'),
         "detail": (_) => DetailPage(),
-        "pageview": (_) => PageViewPage(title: 'PageView Demo'),
+        "pageview_mixin": (_) => PageViewMixinPage(title: 'PageView Mixin Demo'),
+        "pageview": (_) => PageViewWrapperPage(title: 'PageView Wrapper Demo'),
         "tabview": (_) => TabViewPage(title: 'TabView Demo'),
         "pageviewInTabView": (_) => PageviewInTabviewPage(title: 'Pageview Wraped in TabView demo'),
       },
