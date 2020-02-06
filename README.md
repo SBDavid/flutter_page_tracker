@@ -1,7 +1,13 @@
 # flutter_page_tracker
 
 ## 简介
-FlutterPageTracker是一个用于监听页面`露出`、`离开`的plugin。它具有以下特性：
+FlutterPageTracker 是一个易用的 Flutter 应用页面事件埋点插件。它不仅支持在普通导航事件中监听页面曝光和离开，也支持弹窗的曝光和离开。
+
+针对 TabView（PageView）形式的首页，FlutterPageTracker 可以监听每一个Tab的曝光和离开，并且把Tab形式的页面和普通页面衔接起来。
+
+针对TabView和PageView组件相互嵌套的情况，FlutterPageTracker 可以对每一级嵌套分别监控埋点事件，大大提升埋点的效率。
+
+它具有以下特性：
 
 - 1.监听普通页面的`露出`和`离开`事件（PageRoute），
     - 当前页面入栈会触发当前页面的`曝光事件`和前一个页面的`离开事件`。
