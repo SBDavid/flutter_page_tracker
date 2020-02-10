@@ -6,6 +6,7 @@ import 'page_tracker_aware.dart';
 
 enum PageTrackerEvent {PageView, PageExit}
 
+// 包裹在PageView TabView组件之外，用于监听Tab切换事件
 class PageViewWrapper extends StatefulWidget {
 
   final int pageAmount;
@@ -130,6 +131,7 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
 
 }
 
+// Tab切换事件接口
 abstract class ChangeDelegate {
   StreamController<int> streamController;
   Stream<int> stream;
