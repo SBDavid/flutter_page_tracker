@@ -60,7 +60,7 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
     controllers[index] = StreamController<PageTrackerEvent>(sync: true, onCancel: () {
       _createController(index);
     });
-    broadCaseStreams[index] = controllers[index].stream;
+    broadCaseStreams[index] = controllers[index].stream.asBroadcastStream();
   }
 
 
