@@ -16,3 +16,4 @@
 ## [2.1.0] - PageView/TabView推荐直接使用mixin，但是StatelessWidget只能使用Wrapper
 ## [2.1.1] - bugfix: 使用PageViewListenerMixin上的of发放
 ## [2.1.2] - bugfix: tab曝光埋点使用asBroadcastStream，支持多次事件绑定
+## [2.1.3] - bugfix: 控制数据的范围

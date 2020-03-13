@@ -1,7 +1,7 @@
 name: flutter_page_tracker
 description: flutter_page_tracker is a flutter plugin which help tracking route events of PageRoute/PopupRoute/PageView/TabView. Route events include PageView and PageExit.
 
-version: 2.1.2
+version: 2.1.3
 author: DavidTang <billl89g@gmail.com>
 homepage: https://github.com/SBDavid/flutter_page_tracker
 
