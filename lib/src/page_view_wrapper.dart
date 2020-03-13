@@ -78,7 +78,7 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
     }
 
     // 发送首次PageView事件
-    controllers[currPageIndex].add(PageTrackerEvent.PageView);
+    _send(currPageIndex, PageTrackerEvent.PageView);
 
     // 发送后续Page事件
     widget.changeDelegate.listen();
@@ -93,13 +93,13 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
 
     // 发送PageExit
     if (currPageIndex != null) {
-      controllers[currPageIndex].add(PageTrackerEvent.PageExit);
+      _send(currPageIndex, PageTrackerEvent.PageExit);
     }
 
     currPageIndex = index;
 
     // 发送PageView
-    controllers[currPageIndex].add(PageTrackerEvent.PageView);
+    _send(currPageIndex, PageTrackerEvent.PageView);
   }
 
   @override
@@ -111,7 +111,7 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
   @override
   void didPageView() {
     super.didPageView();
-    controllers[currPageIndex].add(PageTrackerEvent.PageView);
+    _send(currPageIndex, PageTrackerEvent.PageView);
   }
 
   // PageView/TabView嵌套时使用，将上层的事件转发到下层
@@ -119,7 +119,7 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
   void didPageExit() {
     super.didPageExit();
     // 发送tab中的page离开
-    controllers[currPageIndex].add(PageTrackerEvent.PageExit);
+    _send(currPageIndex, PageTrackerEvent.PageExit);
   }
 
   @override
@@ -129,6 +129,10 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
     super.dispose();
   }
 
+  void _send(int index,PageTrackerEvent event) {
+    if (currPageIndex < controllers.length && index >= 0)
+    controllers[index].add(event);
+  }
 }
 
 // Tab切换事件接口
