@@ -49,20 +49,30 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
 
   @override
   void didPageView() {
-    super.didPageView();
-
-    subscribers.forEach((subscriber) {
-      subscriber.didPageView();
-    });
+    try {
+      super.didPageView();
+      subscribers.forEach((subscriber) {
+        subscriber.didPageView();
+      });
+    } catch (err) {
+      assert(() {
+        throw err;
+      }());
+    }
   }
 
   @override
   void didPageExit() {
-    super.didPageExit();
-
-    subscribers.forEach((subscriber) {
-      subscriber.didPageExit();
-    });
+    try {
+      super.didPageExit();
+      subscribers.forEach((subscriber) {
+        subscriber.didPageExit();
+      });
+    } catch (err) {
+      assert(() {
+        throw err;
+      }());
+    }
   }
 
   // 子列表页面订阅页面事件
@@ -123,17 +133,29 @@ class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with P
 
   @override
   void didPageView() {
-    super.didPageView();
-    if (widget.onPageView != null) {
-      widget.onPageView();
+    try {
+      super.didPageView();
+      if (widget.onPageView != null) {
+        widget.onPageView();
+      }
+    } catch (err) {
+      assert(() {
+        throw err;
+      }());
     }
   }
 
   @override
   void didPageExit() {
-    super.didPageExit();
-    if (widget.onPageExit != null) {
-      widget.onPageExit();
+    try {
+      super.didPageExit();
+      if (widget.onPageExit != null) {
+        widget.onPageExit();
+      }
+    } catch (err) {
+      assert(() {
+        throw err;
+      }());
     }
   }
 }
