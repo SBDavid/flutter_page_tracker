@@ -64,7 +64,22 @@ void main() => runApp(
 );
 ```
 
-#### 3.2 在组件中发送埋点事件
+#### 3.2 添加路由事件监听
+```dart
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      // 添加路由事件监听
+      navigatorObservers: [TrackerRouteObserverProvider.of(context)],
+      home: MyHomePage(title: 'Flutter_Page_tracker Demo'),
+    );
+  }
+}
+```
+
+#### 3.3 在组件中发送埋点事件
 
 必须使用`PageTrackerAware`和`TrackerPageMixin`这两个mixin
 
@@ -89,7 +104,7 @@ class HomePageState extends State<MyHomePage> with PageTrackerAware, TrackerPage
 }
 ```
 
-#### 3.3 Dialog的埋点
+#### 3.4 Dialog的埋点
 ```dart
 class PopupPage extends StatelessWidget {
 
@@ -114,7 +129,7 @@ class PopupPage extends StatelessWidget {
 }
 ```
 
-#### 3.3 PageView发送埋点事件
+#### 3.5 PageView发送埋点事件
 
 在`StatefulWidget`中，推荐直接使用`PageViewListenerMixin`发送页面事件，如果是`StatelessWidget`组件则可以使用`PageViewListenerWrapper`。
 `PageViewListenerWrapper`内部也是使用`PageViewListenerMixin`来发送事件。
@@ -191,7 +206,7 @@ class PageViewMixinPageState extends State<PageViewMixinPage> {
 }
 ```
 
-#### 3.4 TabView发送埋点事件
+#### 3.6 TabView发送埋点事件
 
 在这个例子中我们只用`PageViewListenerWrapper`来发送页面事件，我们也可以向例子3.3中一样使用直接使用`PageViewListenerMixin`。
 在`StatefulWidget`中，荐使用`mixin`更简洁。
@@ -247,7 +262,7 @@ class _State extends State<TabViewPage> with TickerProviderStateMixin {
 }
 ```
 
-#### 3.5 TabView中嵌套PageView（PageView也可以嵌套TabView，TabView也可以嵌套TabView）
+#### 3.7 TabView中嵌套PageView（PageView也可以嵌套TabView，TabView也可以嵌套TabView）
 
 在这个例子中我们只用`PageViewListenerWrapper`来发送页面事件，我们也可以向例子3.3中一样使用直接使用`PageViewListenerMixin`。
 在`StatefulWidget`中，荐使用`mixin`更简洁。
