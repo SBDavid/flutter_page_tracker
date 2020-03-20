@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_page_tracker/flutter_page_tracker.dart';
-import 'package:example/popup_page.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -75,41 +74,6 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
                     () {
                       Navigator.of(context).pushNamed("detail");
                     }
-                  ),
-                  _button(
-                    'PopupRoute demo',
-                          () {
-                        showDialog(
-                            context: context,
-                            builder: (_) {
-                              return PopupPage();
-                            }
-                        );
-                      }
-                  ),
-                  _button(
-                      'PageView Mixin demo',
-                          () {
-                        Navigator.of(context).pushNamed("pageview_mixin");
-                      }
-                  ),
-                  _button(
-                    'PageView Wrapper demo',
-                    () {
-                      Navigator.of(context).pushNamed("pageview");
-                    }
-                  ),
-                  _button(
-                      'TapView demo',
-                          () {
-                            Navigator.of(context).pushNamed("tabview");
-                      }
-                  ),
-                  _button(
-                      'Pageview Wraped in TabView demo',
-                          () {
-                        Navigator.of(context).pushNamed("pageviewInTabView");
-                      }
                   ),
                 ],
               ),

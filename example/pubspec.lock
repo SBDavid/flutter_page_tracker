@@ -44,10 +44,10 @@ packages:
   flutter_page_tracker:
     dependency: "direct main"
     description:
-      name: flutter_page_tracker
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.1.1"
+      path: ".."
+      relative: true
+    source: path
+    version: "2.1.5"
   flutter_test:
     dependency: "direct dev"
     description: flutter

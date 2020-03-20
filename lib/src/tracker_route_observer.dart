@@ -64,13 +64,6 @@ class TrackerStackObserver<R extends Route<dynamic>> extends NavigatorObserver {
       // 存储在路由栈上
       routes.add(route);
 
-      // 触发相关PageView事件，在订阅的时候触发
-      /*final Set<PageTrackerAware> subscribers = _listeners[route];
-      if (subscribers != null) {
-        for (PageTrackerAware pageTrackerAware in subscribers) {
-          pageTrackerAware.didPageView();
-        }
-      }*/
     } else if (route is PopupRoute) {
       // 存储在路由栈上
       routesPopup.add(route);
