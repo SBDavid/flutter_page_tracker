@@ -110,21 +110,19 @@ class PopupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      children: <Widget>[
-        TrackerDialogWrapper(
-        
-          didPageView: () {
-            // 发送页面曝光事件
-          },
-          
-          didPageExit: () {
-            // 发送页面离开事件
-          },
-          child: Container(),
-        ),
-      ],
-    );
+    return TrackerDialogWrapper(
+     didPageView: () {
+       print('dialog didPageView');
+     },
+     didPageExit: () {
+       print('dialog didPageExit');
+     },
+     child: SimpleDialog(
+       children: <Widget>[
+         // body
+       ],
+     ),
+   );
   }
 }
 ```
@@ -264,7 +262,7 @@ class _State extends State<TabViewPage> with TickerProviderStateMixin {
 
 #### 3.7 TabView中嵌套PageView（PageView也可以嵌套TabView，TabView也可以嵌套TabView）
 
-在这个例子中我们只用`PageViewListenerWrapper`来发送页面事件，我们也可以向例子3.3中一样使用直接使用`PageViewListenerMixin`。
+在这个例子中我们只用`PageViewListenerWrapper`来发送页面事件，我们也可以向例子3.5中一样使用直接使用`PageViewListenerMixin`。
 在`StatefulWidget`中，荐使用`mixin`更简洁。
 
 ```dart

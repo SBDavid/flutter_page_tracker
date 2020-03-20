@@ -19,3 +19,4 @@
 ## [2.1.3] - bugfix: 控制数据的范围
 ## [2.1.4] - bugfix: 在生产环境不抛出异常
 ## [2.1.5] - readme: 添加文档，绑定RouteObserver
+## [2.1.6] - readme: 弹窗埋点demo修改

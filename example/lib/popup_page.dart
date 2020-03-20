@@ -23,49 +23,47 @@ class PopupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      children: <Widget>[
-        ClipRRect(
-          clipBehavior: Clip.antiAlias,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          child: Container(
-            child: TrackerDialogWrapper(
-              didPageView: () {
-                print('dialog didPageView');
-              },
-              didPageExit: () {
-                print('dialog didPageExit');
-              },
-              child: Container(
-                width: 400,
-                color: Colors.blue,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text("When you show a dialog, only PageView event will be trigged. "),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Text("You can see 'dialog didPageView' in the console. "),
-                    ),
-                    Container(height: 10,),
-                    _button("Go to anther PageRoute, will not trigger PageExit on this dialog", () {
-                      Navigator.of(context).pushNamed("detail");
-                    }),
-                    _button("Close dialog, will not trigger PageView on Previous route", () {
-                      Navigator.of(context).pop();
-                    }),
-                  ],
-                ),
+    return TrackerDialogWrapper(
+      didPageView: () {
+        print('dialog didPageView');
+      },
+      didPageExit: () {
+        print('dialog didPageExit');
+      },
+      child: SimpleDialog(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        children: <Widget>[
+          ClipRRect(
+            clipBehavior: Clip.antiAlias,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            child: Container(
+              width: 400,
+              color: Colors.blue,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text("When you show a dialog, only PageView event will be trigged. "),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text("You can see 'dialog didPageView' in the console. "),
+                  ),
+                  Container(height: 10,),
+                  _button("Go to anther PageRoute, will not trigger PageExit on this dialog", () {
+                    Navigator.of(context).pushNamed("detail");
+                  }),
+                  _button("Close dialog, will not trigger PageView on Previous route", () {
+                    Navigator.of(context).pop();
+                  }),
+                ],
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
