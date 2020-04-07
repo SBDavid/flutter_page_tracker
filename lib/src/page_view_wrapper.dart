@@ -77,9 +77,6 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
       _createController(i);
     }
 
-    // 发送首次PageView事件
-    _send(currPageIndex, PageTrackerEvent.PageView);
-
     // 发送后续Page事件
     widget.changeDelegate.listen();
     pageChangeSB = widget.changeDelegate.stream.listen(_onPageChange);
