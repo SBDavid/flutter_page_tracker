@@ -89,10 +89,15 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
 
   @override
   void dispose() {
-    if (isPageView)
-      didPageExit();
-    sb?.cancel();
-    super.dispose();
+    try {
+      if (isPageView)
+        didPageExit();
+      sb?.cancel();
+    } catch (err) {
+      rethrow;
+    } finally {
+      super.dispose();
+    }
   }
 
   static PageViewListenerWrapperState of(BuildContext context) {

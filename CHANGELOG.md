@@ -21,3 +21,4 @@
 ## [2.1.5] - readme: 添加文档，绑定RouteObserver
 ## [2.1.6] - readme: 弹窗埋点demo修改
 ## [2.1.7] - bugfix: PageView组件，应该在首次注册回调事件的时候触发首次页面曝光。这样即使PageView组件随着焦点离开被销毁，也能发页面曝光事件
+## [2.1.8] - bugfix: 在dispose中捕获异常

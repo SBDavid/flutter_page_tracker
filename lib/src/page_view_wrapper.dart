@@ -121,9 +121,14 @@ class PageViewWrapperState extends State<PageViewWrapper> with PageTrackerAware,
 
   @override
   void dispose() {
-    pageChangeSB?.cancel();
-    widget.changeDelegate.dispose();
-    super.dispose();
+    try {
+      pageChangeSB?.cancel();
+      widget.changeDelegate.dispose();
+    } catch (err) {
+      rethrow;
+    } finally {
+      super.dispose();
+    }
   }
 
   void _send(int index,PageTrackerEvent event) {
@@ -180,8 +185,13 @@ class PageViewChangeDelegate extends ChangeDelegate {
 
   @override
   void dispose() {
-    pageController.removeListener(onChange);
-    super.dispose();
+    try {
+      pageController.removeListener(onChange);
+    } catch (err) {
+      rethrow;
+    } finally {
+      super.dispose();
+    }
   }
 }
 

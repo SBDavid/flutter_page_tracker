@@ -36,8 +36,13 @@ mixin TrackerPageMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
 
   @override
   void dispose() {
-    _routeObserver?.unsubscribe(this);
-    _pageViewListenerWrapperState?.unsubscribe(this);
-    super.dispose();
+    try {
+      _routeObserver?.unsubscribe(this);
+      _pageViewListenerWrapperState?.unsubscribe(this);
+    } catch (err) {
+      rethrow;
+    } finally {
+      super.dispose();
+    }
   }
 }
