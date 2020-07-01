@@ -33,6 +33,9 @@ class _MyHomePageState extends State<PageViewWrapperPage> with AutomaticKeepAliv
       onPageExit: () {
         print("pageexit $index");
       },
+      onPageLoaded: (Duration duration) {
+        print("onPageLoaded ${duration.inMilliseconds}");
+      },
       child: SafeArea(
         child: Container(
           color: Colors.blue[color],

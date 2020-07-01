@@ -8,3 +8,4 @@ export './src/tracker_page_mixin.dart';
 export './src/page_view_wrapper.dart';
 export './src/tracker_dialog_wrapper.dart';
 export './src/page_view_listener_mixin.dart';
+export './src/page_load_mixin.dart';

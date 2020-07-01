@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'page_tracker_aware.dart';
 import 'page_view_wrapper.dart';
+import 'page_load_mixin.dart';
 
 mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
 
@@ -105,20 +106,25 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
   }
 }
 
+typedef onPageLoadedCallback = void Function(Duration);
 
 // 列表项中还可以再次嵌套列表，所以[PageViewListenerWrapper]需要把
 class PageViewListenerWrapper extends StatefulWidget {
 
   final int index;
+  final bool hasRequest;
   final Widget child;
   final VoidCallback onPageView;
   final VoidCallback onPageExit;
+  final onPageLoadedCallback onPageLoaded;
 
   const PageViewListenerWrapper(this.index, {
     Key key,
+    this.hasRequest = false,
     this.child,
     this.onPageView,
     this.onPageExit,
+    this.onPageLoaded,
   }): super(key: key);
 
   @override
@@ -128,7 +134,7 @@ class PageViewListenerWrapper extends StatefulWidget {
 
 }
 
-class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with PageTrackerAware, PageViewListenerMixin {
+class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with PageTrackerAware, PageViewListenerMixin, PageLoadMixin {
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +165,19 @@ class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with P
       super.didPageExit();
       if (widget.onPageExit != null) {
         widget.onPageExit();
+      }
+    } catch (err) {
+      assert(() {
+        throw err;
+      }());
+    }
+  }
+
+  @override
+  void didPageLoaded(Duration duration) {
+    try {
+      if (widget.onPageLoaded != null) {
+        widget.onPageLoaded(duration);
       }
     } catch (err) {
       assert(() {

@@ -4,4 +4,6 @@ abstract class PageTrackerAware {
 
   void didPageExit() { }
 
+  void didPageLoaded(Duration duration) { }
+
 }

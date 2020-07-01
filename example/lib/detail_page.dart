@@ -8,7 +8,7 @@ class DetailPage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<DetailPage> with PageTrackerAware, TrackerPageMixin {
+class _MyHomePageState extends State<DetailPage> with PageTrackerAware, TrackerPageMixin, PageLoadMixin {
 
 
   @override
@@ -63,5 +63,10 @@ class _MyHomePageState extends State<DetailPage> with PageTrackerAware, TrackerP
     super.didPageExit();
 
     print("PageExit: PageRoute");
+  }
+
+  @override
+  void didPageLoaded(Duration duration) {
+    print("didPageLoaded: ${duration.inMilliseconds}");
   }
 }

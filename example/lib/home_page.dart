@@ -14,8 +14,11 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerPageMixin {
+class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerPageMixin, PageLoadMixin {
 
+  // 模拟网络请求
+  @override
+  get hasRequest => true;
 
   Widget _button(String text, VoidCallback onTap) {
     return GestureDetector(
@@ -28,6 +31,15 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
           ),
         )
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    beginRequestTime();
+    Future.delayed(Duration(seconds: 1), () {endRequestTime(); setState(() {
+
+    });});
   }
 
   @override
@@ -125,6 +137,11 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
     super.didPageView();
 
     print("tracker pageview home");
+  }
+  
+  @override
+  void didPageLoaded(Duration duration) {
+    print("didPageLoaded: ${duration.inMilliseconds}");
   }
 
   @override

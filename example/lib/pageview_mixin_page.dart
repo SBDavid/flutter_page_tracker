@@ -60,7 +60,7 @@ class Page extends StatefulWidget {
   }
 }
 
-class PageState extends State<Page> with PageTrackerAware, PageViewListenerMixin {
+class PageState extends State<Page> with PageTrackerAware, PageViewListenerMixin, PageLoadMixin {
 
   int get pageViewIndex => widget.index;
 
@@ -74,6 +74,11 @@ class PageState extends State<Page> with PageTrackerAware, PageViewListenerMixin
   void didPageExit() {
     super.didPageExit();
     print("PageExit mixin ${widget.index}");
+  }
+
+  @override
+  void didPageLoaded(Duration duration) {
+    print("didPageLoaded: ${duration.inMilliseconds}");
   }
 
   @override
