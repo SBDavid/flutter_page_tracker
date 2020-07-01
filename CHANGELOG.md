@@ -23,3 +23,4 @@
 ## [2.1.7] - bugfix: PageView组件，应该在首次注册回调事件的时候触发首次页面曝光。这样即使PageView组件随着焦点离开被销毁，也能发页面曝光事件
 ## [2.1.8] - bugfix: 在dispose中捕获异常
 ## [2.2.0] - feature: 统计页面加载时长
+## [2.2.1] - bugfix: rebuildStartTime

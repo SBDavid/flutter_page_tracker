@@ -51,6 +51,10 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
     super.didChangeDependencies();
 
     _firstBuildTIme ??= DateTime.now();
+    rebuildStartTime();
+  }
+
+  void rebuildStartTime() {
     if (!hasRequest) {
       if (_rebuildStartTime == null) {
         _rebuildStartTime = DateTime.now();
