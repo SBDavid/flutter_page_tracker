@@ -24,3 +24,4 @@
 ## [2.1.8] - bugfix: 在dispose中捕获异常
 ## [2.2.0] - feature: 统计页面加载时长
 ## [2.2.1] - bugfix: rebuildStartTime
+## [2.2.2] - 优化：较少统计页面加载时长对业务代码的入侵

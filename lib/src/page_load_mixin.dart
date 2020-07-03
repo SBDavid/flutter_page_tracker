@@ -1,20 +1,22 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'page_tracker_aware.dart';
-import 'tracker_route_observer.dart';
-import 'page_view_listener_mixin.dart';
-import 'tracker_route_observer_provider.dart';
+import 'dart:async';
 
+// 监控页面加载时长
 mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
   // 增加页面加载时间统计
   DateTime _firstCreateTime;  // 初始化时间
-  DateTime _firstBuildTIme;   // 首次build时间，通常为加载页面
+  DateTime _firstBuildTIme;   // 首次build时间，通常为布局解析时间
   DateTime _beginRequestTime; // 发起网络请求
   DateTime _endRequestTime;   // 网络请求结束
-  DateTime _rebuildStartTime; // 得到请求结果后二次刷新的时间
-  DateTime _nextFrameTime;    // 二次刷新后显示的时间
+  DateTime _rebuildStartTime; // 得到请求结果后二次刷新开始的时间
+  DateTime _nextFrameTime;    // 二次刷新后，完成渲染的时间
+
+  StreamSubscription<int> _httpRequestSS;
+
   @protected
-  get hasRequest => false;
+  String get httpRequestKey => null;
 
   void _didPageloaded(Duration duration) {
     didPageLoaded(duration);
@@ -30,7 +32,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
 
   @override
   void setState(fn) {
-    if (hasRequest && _endRequestTime != null && _rebuildStartTime == null) {
+    if (httpRequestKey != null && _endRequestTime != null && _rebuildStartTime == null) {
       _rebuildStartTime = DateTime.now();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _nextFrameTime ??= DateTime.now();
@@ -40,10 +42,25 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
     super.setState(fn);
   }
 
+  void _handleHttpRequestEvent(int type) {
+    if (type == 0) {
+      beginRequestTime();
+    }
+
+    if (type == 1) {
+      endRequestTime();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _firstCreateTime ??= DateTime.now();
+
+    // 监听网络开始加载
+    if (httpRequestKey != null) {
+      _httpRequestSS = PageLoadHttpRequestObserver.on(httpRequestKey).listen(_handleHttpRequestEvent);
+    }
   }
 
   @override
@@ -55,7 +72,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
   }
 
   void rebuildStartTime() {
-    if (!hasRequest) {
+    if (rebuildStartTime == null) { // 没有网络请求
       if (_rebuildStartTime == null) {
         _rebuildStartTime = DateTime.now();
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -63,7 +80,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
           _didPageloaded(_nextFrameTime.difference(_firstBuildTIme));
         });
       }
-    } else {
+    } else { // 使用网络请求
       if (_endRequestTime != null && _rebuildStartTime == null) {
         _rebuildStartTime = DateTime.now();
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -72,5 +89,40 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
         });
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _httpRequestSS?.cancel();
+    super.dispose();
+  }
+}
+
+// 监控网络请求
+class PageLoadHttpRequestObserver {
+  static StreamController<Map> _streamController = StreamController.broadcast(sync: true);
+
+  static void fireHttpRequestStart(String key) {
+    _streamController.add({
+      "key": key,
+      "type": 0
+    });
+  }
+
+  static void fireHttpRequestComplete(String key) {
+    _streamController.add({
+      "key": key,
+      "type": 1
+    });
+  }
+
+  static Stream<int> on(String key) {
+    return _streamController.stream
+      .where((Map event) => event['key'] == key)
+      .map<int>((Map event) => event['type']);
+  }
+
+  static void destroy() {
+    _streamController.close();
   }
 }
