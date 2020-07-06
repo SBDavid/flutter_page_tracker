@@ -138,10 +138,10 @@ class _MyHomePageState extends State<MyHomePage> with PageTrackerAware, TrackerP
 
     print("tracker pageview home");
   }
-  
+
   @override
-  void didPageLoaded(Duration duration) {
-    print("didPageLoaded: ${duration.inMilliseconds}");
+  void didPageLoaded(_, __, ___, ____) {
+    // DoSomething
   }
 
   @override

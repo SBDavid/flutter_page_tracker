@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'page_tracker_aware.dart';
 import 'dart:async';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'page_load_provider.dart';
 
 // 监控页面加载时长
 mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
@@ -18,8 +20,22 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
   @protected
   String get httpRequestKey => null;
 
-  void _didPageloaded(Duration duration) {
-    didPageLoaded(duration);
+  void _didPageloaded() {
+
+    // 总时间
+    Duration totalTime = _nextFrameTime.difference(_firstCreateTime);
+    // 页面初始化时间
+    Duration buildTime = _firstBuildTIme.difference(_firstCreateTime);
+    // 网络请求时间
+    Duration requestTime = httpRequestKey == null ? null : _endRequestTime.difference(_beginRequestTime);
+    // 渲染时间
+    Duration renderTime = _nextFrameTime.difference(_rebuildStartTime);
+
+    if (PageLoadProvider.of(context) != 'pro') {
+      Fluttertoast.showToast(msg: "加载时长：${totalTime.inMilliseconds}");
+    }
+
+    didPageLoaded(totalTime, buildTime, requestTime, renderTime);
   }
 
   void beginRequestTime() {
@@ -36,7 +52,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
       _rebuildStartTime = DateTime.now();
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _nextFrameTime ??= DateTime.now();
-        _didPageloaded(_nextFrameTime.difference(_firstBuildTIme));
+        _didPageloaded();
       });
     }
     super.setState(fn);
@@ -72,12 +88,12 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
   }
 
   void rebuildStartTime() {
-    if (rebuildStartTime == null) { // 没有网络请求
+    if (httpRequestKey == null) { // 没有网络请求
       if (_rebuildStartTime == null) {
         _rebuildStartTime = DateTime.now();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _nextFrameTime ??= DateTime.now();
-          _didPageloaded(_nextFrameTime.difference(_firstBuildTIme));
+          _didPageloaded();
         });
       }
     } else { // 使用网络请求
@@ -85,7 +101,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
         _rebuildStartTime = DateTime.now();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _nextFrameTime ??= DateTime.now();
-          _didPageloaded(_nextFrameTime.difference(_firstBuildTIme));
+          _didPageloaded();
         });
       }
     }

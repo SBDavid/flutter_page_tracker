@@ -11,7 +11,7 @@ import 'pageview_mixin_page.dart';
 
 void main() => runApp(
   TrackerRouteObserverProvider(
-    child: MyApp(),
+    child: PageLoadProvider(env: "dev",child: MyApp()),
   )
 );
 

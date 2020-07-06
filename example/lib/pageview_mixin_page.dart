@@ -77,8 +77,8 @@ class PageState extends State<Page> with PageTrackerAware, PageViewListenerMixin
   }
 
   @override
-  void didPageLoaded(Duration duration) {
-    print("didPageLoaded: ${duration.inMilliseconds}");
+  void didPageLoaded(_, __, ___, ____) {
+    // DoSomething
   }
 
   @override

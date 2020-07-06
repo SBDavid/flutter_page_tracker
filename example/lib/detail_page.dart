@@ -66,7 +66,7 @@ class _MyHomePageState extends State<DetailPage> with PageTrackerAware, TrackerP
   }
 
   @override
-  void didPageLoaded(Duration duration) {
-    print("didPageLoaded: ${duration.inMilliseconds}");
+  void didPageLoaded(_, __, ___, ____) {
+    // DoSomething
   }
 }

@@ -106,7 +106,7 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
   }
 }
 
-typedef onPageLoadedCallback = void Function(Duration);
+typedef onPageLoadedCallback = void Function(Duration, Duration, Duration, Duration);
 
 // 列表项中还可以再次嵌套列表，所以[PageViewListenerWrapper]需要把
 class PageViewListenerWrapper extends StatefulWidget {
@@ -174,10 +174,10 @@ class PageViewListenerWrapperState extends State<PageViewListenerWrapper> with P
   }
 
   @override
-  void didPageLoaded(Duration duration) {
+  void didPageLoaded(Duration totalTime, Duration buildTime, Duration requestTime, Duration renderTime) {
     try {
       if (widget.onPageLoaded != null) {
-        widget.onPageLoaded(duration);
+        widget.onPageLoaded(totalTime, buildTime, requestTime, renderTime);
       }
     } catch (err) {
       assert(() {
