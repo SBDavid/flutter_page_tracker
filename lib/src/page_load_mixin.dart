@@ -4,6 +4,7 @@ import 'page_tracker_aware.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'page_load_provider.dart';
+import 'package:flutter/scheduler.dart';
 
 // 监控页面加载时长
 mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
@@ -65,6 +66,9 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
 
     if (type == 1) {
       endRequestTime();
+      SchedulerBinding.instance.scheduleFrameCallback((_) {
+        rebuildStartTime();
+      });
     }
   }
 
