@@ -66,9 +66,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
 
     if (type == 1) {
       endRequestTime();
-      SchedulerBinding.instance.scheduleFrameCallback((_) {
-        rebuildStartTime();
-      });
+      rebuildStartTime();
     }
   }
 
@@ -81,24 +79,19 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
     if (httpRequestKey != null) {
       _httpRequestSS = PageLoadHttpRequestObserver.on(httpRequestKey).listen(_handleHttpRequestEvent);
     }
-  }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _firstBuildTIme ??= DateTime.now();
-    rebuildStartTime();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _firstBuildTIme ??= DateTime.now();
+      rebuildStartTime();
+    });
   }
 
   void rebuildStartTime() {
     if (httpRequestKey == null) { // 没有网络请求
       if (_rebuildStartTime == null) {
         _rebuildStartTime = DateTime.now();
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _nextFrameTime ??= DateTime.now();
-          _didPageloaded();
-        });
+        _nextFrameTime ??= DateTime.now();
+        _didPageloaded();
       }
     } else { // 使用网络请求
       if (_endRequestTime != null && _rebuildStartTime == null) {
