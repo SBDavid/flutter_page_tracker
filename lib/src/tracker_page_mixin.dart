@@ -17,13 +17,14 @@ mixin TrackerPageMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
       return;
     }
 
+    // 订阅PageView组件中的事件
     _pageViewListenerWrapperState = PageViewListenerMixin.of(context);
     if (_pageViewListenerWrapperState != null) {
       _pageViewListenerWrapperState.subscribe(this);
       return;
     }
 
-
+    // 订阅本页面的事件
     if (_routeObserver != null) {
       return;
     }

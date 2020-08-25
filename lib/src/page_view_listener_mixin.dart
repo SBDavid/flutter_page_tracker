@@ -5,6 +5,7 @@ import 'page_tracker_aware.dart';
 import 'page_view_wrapper.dart';
 import 'page_load_mixin.dart';
 
+// 处理pageview组件的事件传法
 mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
 
   StreamSubscription<PageTrackerEvent> sb;
