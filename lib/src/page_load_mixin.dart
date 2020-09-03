@@ -33,7 +33,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
     Duration renderTime = _nextFrameTime.difference(_rebuildStartTime);
 
     if (PageLoadProvider.of(context) != 'pro') {
-      Fluttertoast.showToast(msg: "加载时长：${totalTime.inMilliseconds}");
+      Fluttertoast.showToast(msg: "加载时长：${totalTime.inMilliseconds}", fontSize: 16);
     }
 
     didPageLoaded(totalTime, buildTime, requestTime, renderTime);
