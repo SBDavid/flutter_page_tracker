@@ -51,7 +51,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
   void setState(fn) {
     if (httpRequestKey != null && _endRequestTime != null && _rebuildStartTime == null) {
       _rebuildStartTime = DateTime.now();
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(Duration(seconds: 0), () {
         _nextFrameTime ??= DateTime.now();
         _didPageloaded();
       });
@@ -80,7 +80,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
       _httpRequestSS = PageLoadHttpRequestObserver.on(httpRequestKey).listen(_handleHttpRequestEvent);
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(Duration(seconds: 0), () {
       _firstBuildTIme ??= DateTime.now();
       rebuildStartTime();
     });
@@ -96,7 +96,7 @@ mixin PageLoadMixin<T extends StatefulWidget> on State<T>, PageTrackerAware {
     } else { // 使用网络请求
       if (_endRequestTime != null && _rebuildStartTime == null) {
         _rebuildStartTime = DateTime.now();
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(Duration(seconds: 0), () {
           _nextFrameTime ??= DateTime.now();
           _didPageloaded();
         });
