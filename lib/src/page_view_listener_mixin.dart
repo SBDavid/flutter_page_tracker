@@ -103,7 +103,7 @@ mixin PageViewListenerMixin<T extends StatefulWidget> on State<T>, PageTrackerAw
   }
 
   static PageViewListenerWrapperState of(BuildContext context) {
-    return context.ancestorStateOfType(TypeMatcher<PageViewListenerWrapperState>());
+    return context.findAncestorStateOfType<PageViewListenerWrapperState>();
   }
 }
 

@@ -17,8 +17,8 @@ class TrackerRouteObserverProvider extends InheritedWidget {
 
   static TrackerStackObserver<ModalRoute> of(BuildContext context) {
     try {
-      return (context.inheritFromWidgetOfExactType(
-          TrackerRouteObserverProvider) as TrackerRouteObserverProvider)
+      return context
+          .dependOnInheritedWidgetOfExactType<TrackerRouteObserverProvider>()
           .trackerStackObserver;
     } catch (err) {
       return null;

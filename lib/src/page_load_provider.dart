@@ -17,9 +17,7 @@ class PageLoadProvider extends InheritedWidget {
 
   static String of(BuildContext context) {
     try {
-      return (context.inheritFromWidgetOfExactType(
-          PageLoadProvider) as PageLoadProvider)
-          .env;
+      return context.dependOnInheritedWidgetOfExactType<PageLoadProvider>().env;
     } catch (err) {
       return "pro";
     }
